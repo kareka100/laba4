@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AJAX-запрос и отображение данных</title>
+</head>
+<body>
+    <h1>Загрузка данных с сервера</h1>
+    <div id="data"></div>
+
+    <script>
+        // Создаем функцию для выполнения AJAX-запроса
+        function fetchData() {
+            fetch("https://github.com/Hipo/university-domains-list.git")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Ошибка в ответе сервера");
+                    }
+                    return response.json(); // Парсинг JSON-ответа
+                })
+                .then(data => {
+                    displayData(data); // Отображаем данные на странице
+                })
+                .catch(error => {
+                    console.error("Произошла ошибка при выполнении запроса:", error);
+                });
+        }
+
+        // Функция для отображения данных на странице
+        function displayData(data) {
+            const dataContainer = document.getElementById("data");
+            dataContainer.textContent = JSON.stringify(data, null, 2);
+        }
+
+        // Вызываем функцию fetchData() для отправки запроса при загрузке страницы
+        fetchData();
+    </script>
+</body>
+</html>
